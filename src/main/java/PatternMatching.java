@@ -1,5 +1,3 @@
-import org.apache.commons.io.IOUtils;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,21 +5,20 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main {
+public class Patterns {
+    private String rawData;
+    private int errorCounter;
+    private Map<String, Map<Double, Integer>> items;
 
-    public String readRawDataToString() throws Exception {
-        ClassLoader classLoader = getClass().getClassLoader();
-        String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
-        return result;
+    public Patterns(String rawData) {
+        this.rawData = rawData;
+        this.errorCounter = 0;
+        this.items = new LinkedHashMap<>();
     }
 
-    public static void main(String[] args) throws Exception {
-        Main main = new Main();
-        String rawData = main.readRawDataToString();
-
-        //splits the string by ## and adds it to an array called entries
+    public List<String> splitEntries() {
         List<String> entries = new ArrayList<>();
-        Pattern splitPattern = Pattern.compile("(.*?)(##|$)");//from the start of anything till ## which is signified by $
+        Pattern splitPattern = Pattern.compile("(.*?)(##|$)");
         Matcher splitMatcher = splitPattern.matcher(rawData);
 
         while (splitMatcher.find()) {
@@ -30,12 +27,10 @@ public class Main {
             }
             entries.add(splitMatcher.group(1));
         }
+        return entries;
+    }
 
-        //new class for pattern recognition
-        Map<String, Map<Double, Integer>> items = new LinkedHashMap<>();
-        //counts errors
-        int errorCounter = 0;
-
+    public Map<String, Map<Double, Integer>> processEntries(List<String> entries) {
         Pattern namePattern = Pattern.compile("(?i)(name:)(.+?)([;@^*%])");
         Pattern pricePattern = Pattern.compile("(?i)(price:)(.+?)([;@^*%])");
 
@@ -85,6 +80,34 @@ public class Main {
                 errorCounter++;
             }
         }
+        return items;
+    }
 
+    public int getErrorCounter() {
+        return errorCounter;
+    }
+
+    public void printResults() {
+        for (String name : items.keySet()) {
+            Map<Double, Integer> prices = items.get(name);
+            int totalCount = 0; //to count the total amount of times seen of named product
+            for (Integer count : prices.values()) {
+                totalCount += count;
+            }
+
+            System.out.printf("name: %-8s \t\t seen: %d times\n", name, totalCount);
+            System.out.println("============= \t\t =============");
+
+            for (Map.Entry<Double, Integer> priceEntry : prices.entrySet()) {
+                double price = priceEntry.getKey();
+                int count = priceEntry.getValue();
+                System.out.printf("Price: \t %.2f \t\t seen: %d %s\n", price, count, count > 1 ? "times" : "time");
+                System.out.println("------------- \t\t -------------");
+            }
+            System.out.println();
+        }
+
+        System.out.println("Errors \t\t\t\t seen: " + errorCounter + " times");
     }
 }
+
