@@ -1,4 +1,7 @@
 import org.apache.commons.io.IOUtils;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class Main {
@@ -17,7 +20,17 @@ public class Main {
 
         List<String> entries = patterns.splitEntries();
         patterns.processEntries(entries);
+        writeToFile(patterns.printResults());
 
         System.out.println(patterns.printResults());
+    }
+    public static void writeToFile(String input) {
+        try {
+            FileWriter writer = new FileWriter("output-test.txt");
+            writer.write(input);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
