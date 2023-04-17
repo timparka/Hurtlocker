@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Patterns {
+public class PatternMatching {
     private String rawData;
     private int errorCounter;
     private Map<String, Map<Double, Integer>> items;
 
-    public Patterns(String rawData) {
+    public PatternMatching(String rawData) {
         this.rawData = rawData;
         this.errorCounter = 0;
         this.items = new LinkedHashMap<>();
@@ -87,27 +87,31 @@ public class Patterns {
         return errorCounter;
     }
 
-    public void printResults() {
+    public String printResults() {
+        StringBuilder output = new StringBuilder();
+
         for (String name : items.keySet()) {
             Map<Double, Integer> prices = items.get(name);
-            int totalCount = 0; //to count the total amount of times seen of named product
+            int totalCount = 0;
             for (Integer count : prices.values()) {
                 totalCount += count;
             }
 
-            System.out.printf("name: %-8s \t\t seen: %d times\n", name, totalCount);
-            System.out.println("============= \t\t =============");
+            output.append(String.format("name: %7s \t\t seen: %d times\n", name, totalCount));
+            output.append("============= \t\t =============\n");
 
             for (Map.Entry<Double, Integer> priceEntry : prices.entrySet()) {
                 double price = priceEntry.getKey();
                 int count = priceEntry.getValue();
-                System.out.printf("Price: \t %.2f \t\t seen: %d %s\n", price, count, count > 1 ? "times" : "time");
-                System.out.println("------------- \t\t -------------");
+                output.append(String.format("Price: \t %.2f \t\t seen: %d %s\n", price, count, count > 1 ? "times" : "time"));
+                output.append("------------- \t\t -------------\n");
             }
-            System.out.println();
+            output.append("\n");
         }
 
-        System.out.println("Errors \t\t\t\t seen: " + errorCounter + " times");
+        output.append(String.format("Errors \t\t\t\t seen: %d times\n", errorCounter));
+
+        return output.toString();
     }
 }
 
