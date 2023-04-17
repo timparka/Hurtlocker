@@ -56,30 +56,30 @@ public class PatternMatchingTest {
 
 
         String expected = "name:    Milk \t\t seen: 6 times\n" +
-                "============= \t \t =============\n" +
-                "Price: \t 3.23\t\t seen: 5 times\n" +
-                "-------------\t\t -------------\n" +
-                "Price:   1.23\t\t seen: 1 time\n" +
-                "-------------\t\t -------------\n" +
+                "============= \t\t =============\n" +
+                "Price: \t 3.23 \t\t seen: 5 times\n" +
+                "------------- \t\t -------------\n" +
+                "Price: \t 1.23 \t\t seen: 1 time\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "name:   Bread\t\t seen: 6 times\n" +
-                "=============\t\t =============\n" +
-                "Price:   1.23\t\t seen: 6 times\n" +
-                "-------------\t\t -------------\n" +
+                "name:   Bread \t\t seen: 6 times\n" +
+                "============= \t\t =============\n" +
+                "Price: \t 1.23 \t\t seen: 6 times\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "name: Cookies     \t seen: 8 times\n" +
-                "=============     \t =============\n" +
-                "Price:   2.25        seen: 8 times\n" +
-                "-------------        -------------\n" +
+                "name: Cookies \t\t seen: 8 times\n" +
+                "============= \t\t =============\n" +
+                "Price: \t 2.25 \t\t seen: 8 times\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "name:  Apples     \t seen: 4 times\n" +
-                "=============     \t =============\n" +
-                "Price:   0.25     \t seen: 2 times\n" +
-                "-------------     \t -------------\n" +
-                "Price:   0.23  \t \t seen: 2 times\n" +
-                "-------------\t\t -------------\n" +
+                "name:  Apples \t\t seen: 4 times\n" +
+                "============= \t\t =============\n" +
+                "Price: \t 0.25 \t\t seen: 2 times\n" +
+                "------------- \t\t -------------\n" +
+                "Price: \t 0.23 \t\t seen: 2 times\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "Errors         \t \t seen: 4 times";
+                "Errors \t\t\t\t seen: 4 times\n";
 
         Assert.assertEquals(expected, pm.printResults());
     }
